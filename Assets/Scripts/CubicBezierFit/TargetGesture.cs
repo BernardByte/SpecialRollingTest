@@ -70,10 +70,11 @@ namespace Targetgesture
                 if (curves[i].p0 != null && curves[i].p3 != null)
                 {
                     Instantiate(anchorPoint, curves[i].p0, Quaternion.identity);
-
+                    
 
 
                     Instantiate(anchorPoint, curves[i].p3, Quaternion.identity);
+                    
 
                 }
                 if (curves[i].p1 != null && curves[i].p2 != null)

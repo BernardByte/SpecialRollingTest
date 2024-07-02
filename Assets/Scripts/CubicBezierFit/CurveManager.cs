@@ -121,7 +121,7 @@ namespace burningmime.curves
         /// <param name="DrawnGesture"></param>
         /// <param name="targetGestrue"></param>
         /// <returns>if lists are within tolerace then True, else false</returns>
-        public bool ComparePoints(List<Vector2> DrawnGesture, List<Vector2> targetGestrue)
+        public bool ComparePointsClockwise(List<Vector2> DrawnGesture, List<Vector2> targetGestrue)
         {
 
             
@@ -149,8 +149,41 @@ namespace burningmime.curves
             return mathedControlPoints >= 3;
 
         }
-        
-        
+        public bool ComparePointsAntiClockwise(List<Vector2> DrawnGesture, List<Vector2> targetGestrue)
+        {
+
+            DrawnGesture.Reverse();
+            //List<Vector2> gestureList = new List<Vector2>(DrawnGesture);
+
+            //foreach (Vector2 point in gestureList)
+            //{
+            //    Debug.Log("Reverse: " + point);
+            //}
+
+            float tolerancePercent = 0.4f;
+
+            int mathedControlPoints = 0;
+
+            Vector2[] absoluteValues = new Vector2[targetGestrue.Count];
+
+            //Debug.Log(targetGestrue.Count);
+            for (int i = 0; i < absoluteValues.Length; i++)
+            {
+                absoluteValues[i] = ManhattanDistance(DrawnGesture[i], targetGestrue[i]);
+
+                if (absoluteValues[i].x < tolerancePercent && absoluteValues[i].y < tolerancePercent)
+                {
+                    mathedControlPoints++;
+                }
+            }
+
+            Debug.Log("Mathed Points: " + mathedControlPoints);
+
+
+            return mathedControlPoints >= 3;
+
+        }
+
         public void VisualizePoints(CubicBezier[] curveS,string visualSide)
         {
             mouseMovement.cursorTransformAsAParent = GameObject.FindGameObjectWithTag(visualSide).transform;

@@ -326,7 +326,7 @@ public class Hive : MonoBehaviour
             curveManagerLeft.offsetAndScaledOfConrolPoints = Util.CalculateAndScaleOffsets(curveManagerLeft.curves, curveManagerLeft.centroidPoint);
 
             // This function compare both (target & Drawn gestures)
-            isLeftGestureMatched = curveManagerLeft.ComparePoints(curveManagerLeft.offsetAndScaledOfConrolPoints, targetGestureControlPoints);
+            isLeftGestureMatched = curveManagerLeft.ComparePointsClockwise(curveManagerLeft.offsetAndScaledOfConrolPoints, targetGestureControlPoints) || curveManagerLeft.ComparePointsAntiClockwise(curveManagerLeft.offsetAndScaledOfConrolPoints, targetGestureControlPoints);
 
             // if wanna visualize then put inside if (moveL != Vector2.zero)
 
@@ -361,7 +361,7 @@ public class Hive : MonoBehaviour
             curveManagerRight.offsetAndScaledOfConrolPoints = Util.CalculateAndScaleOffsets(curveManagerRight.curves, curveManagerRight.centroidPoint);
 
             // This function compare both (target & Drawn gestures)
-            isRightGestureMatched = curveManagerRight.ComparePoints(curveManagerRight.offsetAndScaledOfConrolPoints, targetGestureControlPoints);
+            isRightGestureMatched = curveManagerRight.ComparePointsClockwise(curveManagerRight.offsetAndScaledOfConrolPoints, targetGestureControlPoints)  || curveManagerRight.ComparePointsAntiClockwise(curveManagerRight.offsetAndScaledOfConrolPoints, targetGestureControlPoints);
 
             // if wanna visualize then put inside if (moveR != Vector2.zero)
             CubicBezier[] bezierArrayRight = Util.BuildCubicBezierArray(curveManagerRight.offsetAndScaledOfConrolPoints);
@@ -399,30 +399,30 @@ public class Hive : MonoBehaviour
         //RightCurveProcessing();
         yield return new WaitForSeconds(0.7f);
     }
-    void RightCurveProcessing()
-    {
-        curveManagerRight.mouseMovement.AddMousePosition(ref curveManagerRight.mouseMovement.CursorMovements, rightCursor.position);
+    //void RightCurveProcessing()
+    //{
+    //    curveManagerRight.mouseMovement.AddMousePosition(ref curveManagerRight.mouseMovement.CursorMovements, rightCursor.position);
 
-        //Add mouse position in a cicular array
-        dataPointsListRight = curveManagerRight.mouseMovement.MousePositionInOrder().ToList();
-        curveManagerRight.curves = CurveFit.Fit(dataPointsListRight, curveManagerRight.MaxCurveFitError);
+    //    //Add mouse position in a cicular array
+    //    dataPointsListRight = curveManagerRight.mouseMovement.MousePositionInOrder().ToList();
+    //    curveManagerRight.curves = CurveFit.Fit(dataPointsListRight, curveManagerRight.MaxCurveFitError);
 
-        curveManagerRight.centroidPoint = Util.CalculateCentroid(curveManagerRight.curves);
-        // c
-        //curveManagerRight.offsetAndScaledOfConrolPoints.Clear();
-        curveManagerRight.offsetAndScaledOfConrolPoints = Util.CalculateAndScaleOffsets(curveManagerRight.curves, curveManagerRight.centroidPoint);
+    //    curveManagerRight.centroidPoint = Util.CalculateCentroid(curveManagerRight.curves);
+    //    // c
+    //    //curveManagerRight.offsetAndScaledOfConrolPoints.Clear();
+    //    curveManagerRight.offsetAndScaledOfConrolPoints = Util.CalculateAndScaleOffsets(curveManagerRight.curves, curveManagerRight.centroidPoint);
 
-        // This function compare both (target & Drawn gestures)
-        isRightGestureMatched = curveManagerRight.ComparePoints(curveManagerRight.offsetAndScaledOfConrolPoints, targetGestureControlPoints);
+    //    // This function compare both (target & Drawn gestures)
+    //    isRightGestureMatched = curveManagerRight.ComparePoints(curveManagerRight.offsetAndScaledOfConrolPoints, targetGestureControlPoints);
 
 
-        CubicBezier[] bezierArrayRight = Util.BuildCubicBezierArray(curveManagerRight.offsetAndScaledOfConrolPoints);
-        curveManagerRight.VisualizePoints(bezierArrayRight, "RightSideVisualizaiton");
+    //    CubicBezier[] bezierArrayRight = Util.BuildCubicBezierArray(curveManagerRight.offsetAndScaledOfConrolPoints);
+    //    curveManagerRight.VisualizePoints(bezierArrayRight, "RightSideVisualizaiton");
 
-        //curveManagerLeft.mouseMovement.CursorPositionsInOrder = curveManagerLeft.mouseMovement.MousePositionInOrder();
-        curveManagerRight.CurveLength = curveManagerRight.curves.Length;  // assign curves length here
+    //    //curveManagerLeft.mouseMovement.CursorPositionsInOrder = curveManagerLeft.mouseMovement.MousePositionInOrder();
+    //    curveManagerRight.CurveLength = curveManagerRight.curves.Length;  // assign curves length here
 
-    }
+    //}
 
 
 
